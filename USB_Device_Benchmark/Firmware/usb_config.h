@@ -97,6 +97,8 @@
 #error "Dual interface and single interface with altsettings defines cannot be combined."
 #endif
 
+#define MAX_NUM_ALTERNATE_SETTINGS 3
+
 // HARDWARE ID CONFIGURATION ////////////////////////////////////////
 #define VENDOR_ID			0x04D8
 #define PRODUCT_ID			0xFA2E
@@ -174,6 +176,27 @@
 	#define INTF1 EP_BULK
 #endif
 
+/*! \def INTF0_ALT0
+* \brief Endpoint type for IN and OUT endpoints on interface 0, alternate setting 0.
+* 
+* Valid values are \c EP_ISO, \c EP_BULK, and \c EP_INT.
+*/
+#define INTF0_ALT0 EP_BULK
+
+/*! \def INTF0_ALT0
+* \brief Endpoint type for IN and OUT endpoints on interface 0, alternate setting 1.
+* 
+* Valid values are \c EP_ISO, \c EP_BULK, and \c EP_INT.
+*/
+#define INTF0_ALT1 EP_BULK
+
+/*! \def INTF0_ALT0
+* \brief Endpoint type for IN and OUT endpoints on interface 0, alternate setting 2.
+* 
+* Valid values are \c EP_ISO, \c EP_BULK, and \c EP_INT.
+*/
+#define INTF0_ALT2 EP_BULK
+
 /*!@}*/
 
 /////////////////////////////////////////////////////////////////////
@@ -198,6 +221,48 @@
 	#define USBGEN_EP_INTERVAL_INTF0		1
 #endif
 
+#if (INTF0_ALT0==EP_BULK)
+	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT0	EP_BULK
+	#define USBGEN_EP_HANDSHAKE_INTF0_ALT0	USB_HANDSHAKE_ENABLED
+	#define USBGEN_EP_INTERVAL_INTF0_ALT0	0
+#elif (INTF0_ALT0==EP_INT)
+	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT0	EP_INT
+	#define USBGEN_EP_HANDSHAKE_INTF0_ALT0	USB_HANDSHAKE_ENABLED
+	#define USBGEN_EP_INTERVAL_INTF0_ALT0	1
+#elif (INTF0_ALT0==EP_ISO)
+	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT0	EP_ISO|_AS|_DE
+	#define USBGEN_EP_HANDSHAKE_INTF0_ALT0	0
+	#define USBGEN_EP_INTERVAL_INTF0_ALT0	1
+#endif
+
+#if (INTF0_ALT1==EP_BULK)
+	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT1	EP_BULK
+	#define USBGEN_EP_HANDSHAKE_INTF0_ALT1	USB_HANDSHAKE_ENABLED
+	#define USBGEN_EP_INTERVAL_INTF0_ALT1	0
+#elif (INTF0_ALT1==EP_INT)
+	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT1	EP_INT
+	#define USBGEN_EP_HANDSHAKE_INTF0_ALT1	USB_HANDSHAKE_ENABLED
+	#define USBGEN_EP_INTERVAL_INTF0_ALT1	1
+#elif (INTF0_ALT1==EP_ISO)
+	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT1	EP_ISO|_AS|_DE
+	#define USBGEN_EP_HANDSHAKE_INTF0_ALT1	0
+	#define USBGEN_EP_INTERVAL_INTF0_ALT1	1
+#endif
+
+#if (INTF0_ALT2==EP_BULK)
+	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT2	EP_BULK
+	#define USBGEN_EP_HANDSHAKE_INTF0_ALT2	USB_HANDSHAKE_ENABLED
+	#define USBGEN_EP_INTERVAL_INTF0_ALT2	0
+#elif (INTF0_ALT2==EP_INT)
+	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT2	EP_INT
+	#define USBGEN_EP_HANDSHAKE_INTF0_ALT2	USB_HANDSHAKE_ENABLED
+	#define USBGEN_EP_INTERVAL_INTF0_ALT2	1
+#elif (INTF0_ALT2==EP_ISO)
+	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT2	EP_ISO|_AS|_DE
+	#define USBGEN_EP_HANDSHAKE_INTF0_ALT2	0
+	#define USBGEN_EP_INTERVAL_INTF0_ALT2	1
+#endif
+
 #if (INTF1==EP_BULK)
 	#define USBGEN_EP_ATTRIBUTES_INTF1		EP_BULK
 	#define USBGEN_EP_HANDSHAKE_INTF1		USB_HANDSHAKE_ENABLED
@@ -213,12 +278,23 @@
 #endif
 
 #if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
-	#if (INTF0==EP_ISO)
+	#if (INTF0_ALT0==EP_ISO)
 		#define USBGEN_EP_SIZE_INTF0_ALT0 (0)
 	#else
 		#define USBGEN_EP_SIZE_INTF0_ALT0 (USBGEN_EP_SIZE_INTF0/2)
 	#endif
-	#define USBGEN_EP_SIZE_INTF0_ALT1 USBGEN_EP_SIZE_INTF0
+
+	#if (INTF0_ALT1==EP_ISO)
+		#define USBGEN_EP_SIZE_INTF0_ALT1 (0)
+	#else
+		#define USBGEN_EP_SIZE_INTF0_ALT1 (USBGEN_EP_SIZE_INTF0/2)
+	#endif
+
+	#if (INTF0_ALT2==EP_ISO)
+		#define USBGEN_EP_SIZE_INTF0_ALT2 (0)
+	#else
+		#define USBGEN_EP_SIZE_INTF0_ALT2 (USBGEN_EP_SIZE_INTF0/2)
+	#endif
 #endif
 
 /////////////////////////////////////////////////////////////////////
