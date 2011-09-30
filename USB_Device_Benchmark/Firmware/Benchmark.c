@@ -152,6 +152,24 @@ void fillBuffer(BYTE* pBuffer, WORD size);
 	#define mSubmitTransfer_INTF0(BdtPtr, BufferLength) mBDT_SubmitTransfer(BdtPtr)
 #endif
 
+#if (INTF0_ALT0==EP_ISO)
+	#define mSubmitTransfer_INTF0_ALT0(BdtPtr, BufferLength) mBDT_SubmitIsoTransfer(BdtPtr, BufferLength)
+#else
+	#define mSubmitTransfer_INTF0_ALT0(BdtPtr, BufferLength) mBDT_SubmitTransfer(BdtPtr)
+#endif
+
+#if (INTF0_ALT1==EP_ISO)
+	#define mSubmitTransfer_INTF0_ALT1(BdtPtr, BufferLength) mBDT_SubmitIsoTransfer(BdtPtr, BufferLength)
+#else
+	#define mSubmitTransfer_INTF0_ALT1(BdtPtr, BufferLength) mBDT_SubmitTransfer(BdtPtr)
+#endif
+
+#if (INTF0_ALT2==EP_ISO)
+	#define mSubmitTransfer_INTF0_ALT2(BdtPtr, BufferLength) mBDT_SubmitIsoTransfer(BdtPtr, BufferLength)
+#else
+	#define mSubmitTransfer_INTF0_ALT2(BdtPtr, BufferLength) mBDT_SubmitTransfer(BdtPtr)
+#endif
+
 // If interface #1 is iso, use an iso specific submit macro
 #if (INTF1==EP_ISO)
 	#define mSubmitTransfer_INTF1(BdtPtr, BufferLength) mBDT_SubmitIsoTransfer(BdtPtr, BufferLength)
@@ -430,7 +448,18 @@ void doBenchmarkWrite_INTF0(void)
 	if (!USBHandleBusy(pBdtTxEp1))
 	{
 		#if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
-			Length=(USBAlternateInterface[INTF0_NUMBER]==1) ? USBGEN_EP_SIZE_INTF0_ALT1 : USBGEN_EP_SIZE_INTF0_ALT0;
+			switch(USBAlternateInterface[INTF0_NUMBER])
+			{
+			case 0:
+				Length = USBGEN_EP_SIZE_INTF0_ALT0;
+				break;
+			case 1:
+				Length = USBGEN_EP_SIZE_INTF0_ALT1;
+				break;
+			case 2:
+				Length = USBGEN_EP_SIZE_INTF0_ALT2;
+				break;
+			}
 		#else
 			Length=USBGEN_EP_SIZE_INTF0;
 		#endif
@@ -438,7 +467,23 @@ void doBenchmarkWrite_INTF0(void)
 		pBufferTx = USBHandleGetAddr(pBdtTxEp1);
 		mSetWritePacketID(pBufferTx, Length, FillCount_INTF0, NextPacketKey_INTF0);
 		mBDT_FillTransfer(pBdtTxEp1, pBufferTx, Length);
-		mSubmitTransfer_INTF0(pBdtTxEp1, Length);
+
+		#if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
+			switch(USBAlternateInterface[INTF0_NUMBER])
+			{
+			case 0:
+				mSubmitTransfer_INTF0_ALT0(pBdtTxEp1, Length);
+				break;
+			case 1:
+				mSubmitTransfer_INTF0_ALT1(pBdtTxEp1, Length);
+				break;
+			case 2:
+				mSubmitTransfer_INTF0_ALT2(pBdtTxEp1, Length);
+				break;
+			}
+		#else
+			mSubmitTransfer_INTF0(pBdtTxEp1, Length);
+		#endif
 
 		mBDT_TogglePP(pBdtTxEp1);
 	}
@@ -454,29 +499,99 @@ void doBenchmarkLoop_INTF0(void)
 	{
 		pBufferTx = USBHandleGetAddr(pBdtRxEp1);
 		pBufferRx = USBHandleGetAddr(pBdtTxEp1);
-		#if INTF0==EP_ISO
-			#if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
-				Length=(USBAlternateInterface[INTF0_NUMBER]==1) ? USBGEN_EP_SIZE_INTF0_ALT1 : USBGEN_EP_SIZE_INTF0_ALT0;
-			#else
-				Length=USBGEN_EP_SIZE_INTF0;
-			#endif
-		#else
-			Length = mBDT_GetLength(pBdtRxEp1);
-		#endif
-		mBDT_FillTransfer(pBdtTxEp1, pBufferTx, Length);
-		mSubmitTransfer_INTF0(pBdtTxEp1, Length);
-		mBDT_TogglePP(pBdtTxEp1);
 
 		#if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
+			switch (USBAlternateInterface[INTF0_NUMBER])
+			{
+			case 0:
+				#if INTF0_ALT0 == EP_ISO
+					Length = USBGEN_EP_SIZE_INTF0_ALT0;
+				#else
+					Length = mBDT_GetLength(pBdtRxEp1);
+				#endif
+				break;
+			case 1:
+				#if INTF0_ALT1 == EP_ISO
+					Length = USBGEN_EP_SIZE_INTF0_ALT1;
+				#else
+					Length = mBDT_GetLength(pBdtRxEp1);
+				#endif
+				break;
+			case 2:
+				#if INTF0_ALT2 == EP_ISO
+					Length = USBGEN_EP_SIZE_INTF0_ALT2;
+				#else
+					Length = mBDT_GetLength(pBdtRxEp1);
+				#endif
+				break;
+			}
+		#else
+			#if INTF0==EP_ISO
+				Length=USBGEN_EP_SIZE_INTF0;
+			#else
+				Length = mBDT_GetLength(pBdtRxEp1);
+			#endif
+		#endif
+
+		mBDT_FillTransfer(pBdtTxEp1, pBufferTx, Length);
+
+		#if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
+			switch (USBAlternateInterface[INTF0_NUMBER])
+			{
+			case 0:
+				mSubmitTransfer_INTF0_ALT0(pBdtTxEp1, Length);
+				break;
+			case 1:
+				mSubmitTransfer_INTF0_ALT1(pBdtTxEp1, Length);
+				break;
+			case 2:
+				mSubmitTransfer_INTF0_ALT2(pBdtTxEp1, Length);
+				break;
+			}
+		#else
+			mSubmitTransfer_INTF0(pBdtTxEp1, Length);
+		#endif
+        
+        mBDT_TogglePP(pBdtTxEp1);
+
+		#if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
+			switch (USBAlternateInterface[INTF0_NUMBER])
+			{
+			case 0:
+				Length = USBGEN_EP_SIZE_INTF0_ALT0;
+				break;
+			case 1:
+				Length = USBGEN_EP_SIZE_INTF0_ALT1;
+				break;
+			case 2:
+				Length = USBGEN_EP_SIZE_INTF0_ALT2;
+				break;
+			}
 			Length=(USBAlternateInterface[INTF0_NUMBER]==1) ? USBGEN_EP_SIZE_INTF0_ALT1 : USBGEN_EP_SIZE_INTF0_ALT0;
 		#else
 			Length=USBGEN_EP_SIZE_INTF0;
 		#endif
 
 		mBDT_FillTransfer(pBdtRxEp1, pBufferRx, Length);
-		mSubmitTransfer_INTF0(pBdtRxEp1, Length);
-		mBDT_TogglePP(pBdtRxEp1);
-	
+
+		#if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
+			switch (USBAlternateInterface[INTF0_NUMBER])
+			{
+			case 0:
+				mSubmitTransfer_INTF0_ALT0(pBdtRxEp1, Length);
+				break;
+			case 1:
+				mSubmitTransfer_INTF0_ALT1(pBdtRxEp1, Length);
+				break;
+			case 2:
+				mSubmitTransfer_INTF0_ALT2(pBdtRxEp1, Length);
+				break;
+			}
+		#else
+			mSubmitTransfer_INTF0(pBdtRxEp1, Length);
+		#endif
+
+        mBDT_TogglePP(pBdtRxEp1);
 	}
 }
 
@@ -488,15 +603,43 @@ void doBenchmarkRead_INTF0(void)
 	if (!USBHandleBusy(pBdtRxEp1))
 	{
 		#if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
-			Length=(USBAlternateInterface[INTF0_NUMBER]==1) ? USBGEN_EP_SIZE_INTF0_ALT1 : USBGEN_EP_SIZE_INTF0_ALT0;
+			switch (USBAlternateInterface[INTF0_NUMBER])
+			{
+			case 0:
+				Length = USBGEN_EP_SIZE_INTF0_ALT0;
+				break;
+			case 1:
+				Length = USBGEN_EP_SIZE_INTF0_ALT1;
+				break;
+			case 2:
+				Length = USBGEN_EP_SIZE_INTF0_ALT2;
+				break;
+			}
 		#else
 			Length=USBGEN_EP_SIZE_INTF0;
 		#endif
 
 		pBufferRx = USBHandleGetAddr(pBdtRxEp1);
 		mBDT_FillTransfer(pBdtRxEp1, pBufferRx, Length);
-		mSubmitTransfer_INTF0(pBdtRxEp1, Length);
-		mBDT_TogglePP(pBdtRxEp1);
+
+		#if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
+			switch (USBAlternateInterface[INTF0_NUMBER])
+			{
+			case 0:
+				mSubmitTransfer_INTF0_ALT0(pBdtRxEp1, Length);
+				break;
+			case 1:
+				mSubmitTransfer_INTF0_ALT1(pBdtRxEp1, Length);
+				break;
+			case 2:
+				mSubmitTransfer_INTF0_ALT2(pBdtRxEp1, Length);
+				break;
+			}
+		#else
+			mSubmitTransfer_INTF0(pBdtRxEp1, Length);
+		#endif
+
+        mBDT_TogglePP(pBdtRxEp1);
 	}
 }
 
