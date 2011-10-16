@@ -60,9 +60,9 @@
 * - Alt setting 1 will have endpoints with \b wMaxPacketSize = USBGEN_EP_SIZE_INTF0.
 *
 */
-#ifndef USBCFG_H
+//#ifndef USBCFG_H
 #define SINGLE_INTERFACE_WITH_ALTSETTINGS
-#endif
+//#endif
 
 /*! \def VENDOR_BUFFER_ENABLED
 * \brief Enables EP0 get/set vendor buffer.
@@ -71,9 +71,9 @@
 * retrieving data.
 *
 */
-#ifndef USBCFG_H
+//#ifndef USBCFG_H
 #define VENDOR_BUFFER_ENABLED
-#endif
+//#endif
 
 /*! \def DESCRIPTOR_COUNTING_ENABLED
 * \brief Enables descriptor request counting to vendor buffer.
