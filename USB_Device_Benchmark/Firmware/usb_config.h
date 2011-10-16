@@ -188,14 +188,14 @@
 * 
 * Valid values are \c EP_ISO, \c EP_BULK, and \c EP_INT.
 */
-#define INTF0_ALT1 EP_BULK
+#define INTF0_ALT1 EP_INTR
 
 /*! \def INTF0_ALT0
 * \brief Endpoint type for IN and OUT endpoints on interface 0, alternate setting 2.
 * 
 * Valid values are \c EP_ISO, \c EP_BULK, and \c EP_INT.
 */
-#define INTF0_ALT2 EP_BULK
+#define INTF0_ALT2 EP_ISO
 
 /*!@}*/
 

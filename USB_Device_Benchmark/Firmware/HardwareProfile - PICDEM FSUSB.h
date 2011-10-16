@@ -56,7 +56,7 @@
     //The PICDEM FS USB Demo Board platform supports the USE_SELF_POWER_SENSE_IO
     //and USE_USB_BUS_SENSE_IO features.  Uncomment the below line(s) if
     //it is desireable to use one or both of the features.
-    //#define USE_SELF_POWER_SENSE_IO
+    #define USE_SELF_POWER_SENSE_IO
     #define tris_self_power     TRISAbits.TRISA2    // Input
     #if defined(USE_SELF_POWER_SENSE_IO)
     #define self_power          PORTAbits.RA2
@@ -64,7 +64,7 @@
     #define self_power          1
     #endif
 
-    //#define USE_USB_BUS_SENSE_IO
+    #define USE_USB_BUS_SENSE_IO
     #define tris_usb_bus_sense  TRISAbits.TRISA1    // Input
     #if defined(USE_USB_BUS_SENSE_IO)
     #define USB_BUS_SENSE       PORTAbits.RA1
@@ -74,11 +74,11 @@
 
     //Uncomment the following line to make the output HEX of this  
     //  project work with the MCHPUSB Bootloader    
-    //#define PROGRAMMABLE_WITH_USB_MCHPUSB_BOOTLOADER
+    #define PROGRAMMABLE_WITH_USB_MCHPUSB_BOOTLOADER
 	
     //Uncomment the following line to make the output HEX of this 
     //  project work with the HID Bootloader
-    #define PROGRAMMABLE_WITH_USB_HID_BOOTLOADER		
+    //#define PROGRAMMABLE_WITH_USB_HID_BOOTLOADER		
 
     /*******************************************************************/
     /******** MDD File System selection options ************************/
