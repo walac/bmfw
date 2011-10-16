@@ -218,6 +218,8 @@ void PicFWSetVendorBufferHandler(void)
 // the OUT (MCU Rx) endpoint with the first BenchmarkBuffer.
 void USBCBInitEP(void)
 {
+    TestType_INTF0 = TEST_LOOP;
+
     USBEnableEndpoint(USBGEN_EP_NUM_INTF0,USB_OUT_ENABLED|USB_IN_ENABLED|USBGEN_EP_HANDSHAKE_INTF0|USB_DISALLOW_SETUP);
 
 	//Prepare the OUT endpoints to receive the first packets from the host.
@@ -239,6 +241,8 @@ void USBCBInitEP(void)
 	#endif
 
 	#ifdef DUAL_INTERFACE
+        TestType_INTF1 = TEST_LOOP;
+
 		USBEnableEndpoint(USBGEN_EP_NUM_INTF1,USB_OUT_ENABLED|USB_IN_ENABLED|USBGEN_EP_HANDSHAKE_INTF1|USB_DISALLOW_SETUP);
 
 		//Prepare the OUT endpoints to receive the first packets from the host.
