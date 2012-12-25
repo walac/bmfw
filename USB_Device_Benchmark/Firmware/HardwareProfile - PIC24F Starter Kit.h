@@ -63,7 +63,7 @@
    
     //Uncomment this to make the output HEX of this project 
     //   to be able to be bootloaded using the HID bootloader
-    #define PROGRAMMABLE_WITH_USB_HID_BOOTLOADER	
+    #define PROGRAMMABLE_WITH_USB_HID_BOOTLOADER    
 
     //If the application is going to be used with the HID bootloader
     //  then this will provide a function for the application to 

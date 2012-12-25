@@ -1,10 +1,10 @@
 /********************************************************************
- FileName:     	HardwareProfile - PIC18F46J50 PIM.h
- Dependencies:	See INCLUDES section
- Processor:	PIC18 USB Microcontrollers
- Hardware:	PIC18F46J50 PIM
- Compiler:  	Microchip C18
- Company:	Microchip Technology, Inc.
+ FileName:      HardwareProfile - PIC18F46J50 PIM.h
+ Dependencies:  See INCLUDES section
+ Processor: PIC18 USB Microcontrollers
+ Hardware:  PIC18F46J50 PIM
+ Compiler:      Microchip C18
+ Company:   Microchip Technology, Inc.
 
  Software License Agreement:
 
@@ -63,7 +63,7 @@
  
     //Uncomment this to make the output HEX of this project 
     //   to be able to be bootloaded using the HID bootloader
-	#define PROGRAMMABLE_WITH_USB_HID_BOOTLOADER		
+    #define PROGRAMMABLE_WITH_USB_HID_BOOTLOADER        
 
     /*******************************************************************/
     /*******************************************************************/

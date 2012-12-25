@@ -100,9 +100,9 @@
 #define MAX_NUM_ALTERNATE_SETTINGS 3
 
 // HARDWARE ID CONFIGURATION ////////////////////////////////////////
-#define VENDOR_ID			0x04D8
-#define PRODUCT_ID			0xFA2E
-#define BCD_RELEASE_NUMBER	0x0001
+#define VENDOR_ID           0x04D8
+#define PRODUCT_ID          0xFA2E
+#define BCD_RELEASE_NUMBER  0x0001
 
 // DESCRIPTOR STRING CONFIGURATION //////////////////////////////////
 #define MANUFACTURER_STRING_LENGTH 15
@@ -113,23 +113,23 @@
 #define OS_STRING 'M','S','F','T','1','0','0', OS_VENDOR_CODE
 
 #if !defined(DUAL_INTERFACE)
-	#define SERIAL_NUMBER_LENGTH 6
-	#define SERIAL_NUMBER 'L','U','S','B','W','1'
+    #define SERIAL_NUMBER_LENGTH 6
+    #define SERIAL_NUMBER 'L','U','S','B','W','1'
 
-	#define PRODUCT_STRING_LENGTH 16
-	#define PRODUCT_STRING 'B','e','n','c','h','m','a','r','k',' ','D','e','v','i','c','e'
+    #define PRODUCT_STRING_LENGTH 16
+    #define PRODUCT_STRING 'B','e','n','c','h','m','a','r','k',' ','D','e','v','i','c','e'
 #else
-	#define SERIAL_NUMBER_LENGTH 6
-	#define SERIAL_NUMBER 'L','U','S','B','W','2'
+    #define SERIAL_NUMBER_LENGTH 6
+    #define SERIAL_NUMBER 'L','U','S','B','W','2'
 
-	#define PRODUCT_STRING_LENGTH 21
-	#define PRODUCT_STRING 'D','u','a','l',' ','B','e','n','c','h','m','a','r','k',' ','D','e','v','i','c','e'
+    #define PRODUCT_STRING_LENGTH 21
+    #define PRODUCT_STRING 'D','u','a','l',' ','B','e','n','c','h','m','a','r','k',' ','D','e','v','i','c','e'
 
-	#define INTF0_STRING_LENGTH 13
-	#define INTF0_STRING 'B','e','n','c','h','m','a','r','k',' ','O','n','e'
+    #define INTF0_STRING_LENGTH 13
+    #define INTF0_STRING 'B','e','n','c','h','m','a','r','k',' ','O','n','e'
 
-	#define INTF1_STRING_LENGTH 13
-	#define INTF1_STRING 'B','e','n','c','h','m','a','r','k',' ','T','w','o'
+    #define INTF1_STRING_LENGTH 13
+    #define INTF1_STRING 'B','e','n','c','h','m','a','r','k',' ','T','w','o'
 #endif
 
 /*!@}*/
@@ -147,7 +147,7 @@
 *
 */
 #ifndef USBGEN_EP_SIZE_INTF0
-	#define USBGEN_EP_SIZE_INTF0	32
+    #define USBGEN_EP_SIZE_INTF0    32
 #endif
 
 /*! \def INTF0
@@ -156,7 +156,7 @@
 * Valid values are \c EP_ISO, \c EP_BULK, and \c EP_INT.
 */
 #ifndef INTF0
-	#define INTF0 EP_BULK
+    #define INTF0 EP_BULK
 #endif
 
 /*! \def USBGEN_EP_SIZE_INTF1
@@ -164,7 +164,7 @@
 *
 */
 #ifndef USBGEN_EP_SIZE_INTF1
-	#define USBGEN_EP_SIZE_INTF1	32
+    #define USBGEN_EP_SIZE_INTF1    32
 #endif
 
 /*! \def INTF1
@@ -173,7 +173,7 @@
 * Valid values are \c EP_ISO, \c EP_BULK, and \c EP_INT.
 */
 #ifndef INTF1
-	#define INTF1 EP_BULK
+    #define INTF1 EP_BULK
 #endif
 
 /*! \def INTF0_ALT0
@@ -208,117 +208,117 @@
 
 // INTERFACE & ENDPOINT INTERNAL SETUP //////////////////////////////
 #if (INTF0==EP_BULK)
-	#define USBGEN_EP_ATTRIBUTES_INTF0		EP_BULK
-	#define USBGEN_EP_HANDSHAKE_INTF0		USB_HANDSHAKE_ENABLED
-	#define USBGEN_EP_INTERVAL_INTF0		0
+    #define USBGEN_EP_ATTRIBUTES_INTF0      EP_BULK
+    #define USBGEN_EP_HANDSHAKE_INTF0       USB_HANDSHAKE_ENABLED
+    #define USBGEN_EP_INTERVAL_INTF0        0
 #elif (INTF0==EP_INT)
-	#define USBGEN_EP_ATTRIBUTES_INTF0		EP_INT
-	#define USBGEN_EP_HANDSHAKE_INTF0		USB_HANDSHAKE_ENABLED
-	#define USBGEN_EP_INTERVAL_INTF0		1
+    #define USBGEN_EP_ATTRIBUTES_INTF0      EP_INT
+    #define USBGEN_EP_HANDSHAKE_INTF0       USB_HANDSHAKE_ENABLED
+    #define USBGEN_EP_INTERVAL_INTF0        1
 #elif (INTF0==EP_ISO)
-	#define USBGEN_EP_ATTRIBUTES_INTF0		EP_ISO|_AS|_DE
-	#define USBGEN_EP_HANDSHAKE_INTF0		0
-	#define USBGEN_EP_INTERVAL_INTF0		1
+    #define USBGEN_EP_ATTRIBUTES_INTF0      EP_ISO|_AS|_DE
+    #define USBGEN_EP_HANDSHAKE_INTF0       0
+    #define USBGEN_EP_INTERVAL_INTF0        1
 #endif
 
 #if (INTF0_ALT0==EP_BULK)
-	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT0	EP_BULK
-	#define USBGEN_EP_HANDSHAKE_INTF0_ALT0	USB_HANDSHAKE_ENABLED
-	#define USBGEN_EP_INTERVAL_INTF0_ALT0	0
+    #define USBGEN_EP_ATTRIBUTES_INTF0_ALT0 EP_BULK
+    #define USBGEN_EP_HANDSHAKE_INTF0_ALT0  USB_HANDSHAKE_ENABLED
+    #define USBGEN_EP_INTERVAL_INTF0_ALT0   0
 #elif (INTF0_ALT0==EP_INT)
-	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT0	EP_INT
-	#define USBGEN_EP_HANDSHAKE_INTF0_ALT0	USB_HANDSHAKE_ENABLED
-	#define USBGEN_EP_INTERVAL_INTF0_ALT0	1
+    #define USBGEN_EP_ATTRIBUTES_INTF0_ALT0 EP_INT
+    #define USBGEN_EP_HANDSHAKE_INTF0_ALT0  USB_HANDSHAKE_ENABLED
+    #define USBGEN_EP_INTERVAL_INTF0_ALT0   1
 #elif (INTF0_ALT0==EP_ISO)
-	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT0	EP_ISO|_AS|_DE
-	#define USBGEN_EP_HANDSHAKE_INTF0_ALT0	0
-	#define USBGEN_EP_INTERVAL_INTF0_ALT0	1
+    #define USBGEN_EP_ATTRIBUTES_INTF0_ALT0 EP_ISO|_AS|_DE
+    #define USBGEN_EP_HANDSHAKE_INTF0_ALT0  0
+    #define USBGEN_EP_INTERVAL_INTF0_ALT0   1
 #endif
 
 #if (INTF0_ALT1==EP_BULK)
-	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT1	EP_BULK
-	#define USBGEN_EP_HANDSHAKE_INTF0_ALT1	USB_HANDSHAKE_ENABLED
-	#define USBGEN_EP_INTERVAL_INTF0_ALT1	0
+    #define USBGEN_EP_ATTRIBUTES_INTF0_ALT1 EP_BULK
+    #define USBGEN_EP_HANDSHAKE_INTF0_ALT1  USB_HANDSHAKE_ENABLED
+    #define USBGEN_EP_INTERVAL_INTF0_ALT1   0
 #elif (INTF0_ALT1==EP_INT)
-	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT1	EP_INT
-	#define USBGEN_EP_HANDSHAKE_INTF0_ALT1	USB_HANDSHAKE_ENABLED
-	#define USBGEN_EP_INTERVAL_INTF0_ALT1	1
+    #define USBGEN_EP_ATTRIBUTES_INTF0_ALT1 EP_INT
+    #define USBGEN_EP_HANDSHAKE_INTF0_ALT1  USB_HANDSHAKE_ENABLED
+    #define USBGEN_EP_INTERVAL_INTF0_ALT1   1
 #elif (INTF0_ALT1==EP_ISO)
-	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT1	EP_ISO|_AS|_DE
-	#define USBGEN_EP_HANDSHAKE_INTF0_ALT1	0
-	#define USBGEN_EP_INTERVAL_INTF0_ALT1	1
+    #define USBGEN_EP_ATTRIBUTES_INTF0_ALT1 EP_ISO|_AS|_DE
+    #define USBGEN_EP_HANDSHAKE_INTF0_ALT1  0
+    #define USBGEN_EP_INTERVAL_INTF0_ALT1   1
 #endif
 
 #if (INTF0_ALT2==EP_BULK)
-	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT2	EP_BULK
-	#define USBGEN_EP_HANDSHAKE_INTF0_ALT2	USB_HANDSHAKE_ENABLED
-	#define USBGEN_EP_INTERVAL_INTF0_ALT2	0
+    #define USBGEN_EP_ATTRIBUTES_INTF0_ALT2 EP_BULK
+    #define USBGEN_EP_HANDSHAKE_INTF0_ALT2  USB_HANDSHAKE_ENABLED
+    #define USBGEN_EP_INTERVAL_INTF0_ALT2   0
 #elif (INTF0_ALT2==EP_INT)
-	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT2	EP_INT
-	#define USBGEN_EP_HANDSHAKE_INTF0_ALT2	USB_HANDSHAKE_ENABLED
-	#define USBGEN_EP_INTERVAL_INTF0_ALT2	1
+    #define USBGEN_EP_ATTRIBUTES_INTF0_ALT2 EP_INT
+    #define USBGEN_EP_HANDSHAKE_INTF0_ALT2  USB_HANDSHAKE_ENABLED
+    #define USBGEN_EP_INTERVAL_INTF0_ALT2   1
 #elif (INTF0_ALT2==EP_ISO)
-	#define USBGEN_EP_ATTRIBUTES_INTF0_ALT2	EP_ISO|_AS|_DE
-	#define USBGEN_EP_HANDSHAKE_INTF0_ALT2	0
-	#define USBGEN_EP_INTERVAL_INTF0_ALT2	1
+    #define USBGEN_EP_ATTRIBUTES_INTF0_ALT2 EP_ISO|_AS|_DE
+    #define USBGEN_EP_HANDSHAKE_INTF0_ALT2  0
+    #define USBGEN_EP_INTERVAL_INTF0_ALT2   1
 #endif
 
 #if (INTF1==EP_BULK)
-	#define USBGEN_EP_ATTRIBUTES_INTF1		EP_BULK
-	#define USBGEN_EP_HANDSHAKE_INTF1		USB_HANDSHAKE_ENABLED
-	#define USBGEN_EP_INTERVAL_INTF1		0
+    #define USBGEN_EP_ATTRIBUTES_INTF1      EP_BULK
+    #define USBGEN_EP_HANDSHAKE_INTF1       USB_HANDSHAKE_ENABLED
+    #define USBGEN_EP_INTERVAL_INTF1        0
 #elif (INTF1==EP_INT)
-	#define USBGEN_EP_ATTRIBUTES_INTF1		EP_INT
-	#define USBGEN_EP_HANDSHAKE_INTF1		USB_HANDSHAKE_ENABLED
-	#define USBGEN_EP_INTERVAL_INTF1		1
+    #define USBGEN_EP_ATTRIBUTES_INTF1      EP_INT
+    #define USBGEN_EP_HANDSHAKE_INTF1       USB_HANDSHAKE_ENABLED
+    #define USBGEN_EP_INTERVAL_INTF1        1
 #elif (INTF1==EP_ISO)
-	#define USBGEN_EP_ATTRIBUTES_INTF1		EP_ISO|_AS|_DE
-	#define USBGEN_EP_HANDSHAKE_INTF1		0
-	#define USBGEN_EP_INTERVAL_INTF1		1
+    #define USBGEN_EP_ATTRIBUTES_INTF1      EP_ISO|_AS|_DE
+    #define USBGEN_EP_HANDSHAKE_INTF1       0
+    #define USBGEN_EP_INTERVAL_INTF1        1
 #endif
 
 #if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
-	#if (INTF0_ALT0==EP_ISO)
-		#define USBGEN_EP_SIZE_INTF0_ALT0 (32)
-	#else
-		#define USBGEN_EP_SIZE_INTF0_ALT0 (USBGEN_EP_SIZE_INTF0/2)
-	#endif
+    #if (INTF0_ALT0==EP_ISO)
+        #define USBGEN_EP_SIZE_INTF0_ALT0 (32)
+    #else
+        #define USBGEN_EP_SIZE_INTF0_ALT0 (USBGEN_EP_SIZE_INTF0/2)
+    #endif
 
-	#if (INTF0_ALT1==EP_ISO)
-		#define USBGEN_EP_SIZE_INTF0_ALT1 (32)
-	#else
-		#define USBGEN_EP_SIZE_INTF0_ALT1 (USBGEN_EP_SIZE_INTF0/2)
-	#endif
+    #if (INTF0_ALT1==EP_ISO)
+        #define USBGEN_EP_SIZE_INTF0_ALT1 (32)
+    #else
+        #define USBGEN_EP_SIZE_INTF0_ALT1 (USBGEN_EP_SIZE_INTF0/2)
+    #endif
 
-	#if (INTF0_ALT2==EP_ISO)
-		#define USBGEN_EP_SIZE_INTF0_ALT2 (32)
-	#else
-		#define USBGEN_EP_SIZE_INTF0_ALT2 (USBGEN_EP_SIZE_INTF0/2)
-	#endif
+    #if (INTF0_ALT2==EP_ISO)
+        #define USBGEN_EP_SIZE_INTF0_ALT2 (32)
+    #else
+        #define USBGEN_EP_SIZE_INTF0_ALT2 (USBGEN_EP_SIZE_INTF0/2)
+    #endif
 #endif
 
 /////////////////////////////////////////////////////////////////////
 
 
 /* DEFINITIONS ****************************************************/
-#define USBGEN_EP_NUM_INTF0		1
-#define USBGEN_EP_NUM_INTF1		2
+#define USBGEN_EP_NUM_INTF0     1
+#define USBGEN_EP_NUM_INTF1     2
 
-#define USB_EP0_BUFF_SIZE		8	// Valid Options: 8, 16, 32, or 64 bytes.
-								// Using larger options take more SRAM, but
-								// does not provide much advantage in most types
-								// of applications.  Exceptions to this, are applications
-								// that use EP0 IN or OUT for sending large amounts of
-								// application related data.
+#define USB_EP0_BUFF_SIZE       8   // Valid Options: 8, 16, 32, or 64 bytes.
+                                // Using larger options take more SRAM, but
+                                // does not provide much advantage in most types
+                                // of applications.  Exceptions to this, are applications
+                                // that use EP0 IN or OUT for sending large amounts of
+                                // application related data.
 
 #if defined(DUAL_INTERFACE)
-	#define USB_MAX_NUM_INT     		(INTF1_NUMBER+1)   // For tracking Alternate Setting
-	#define USB_MAX_EP_NUMBER			2
-	#define USB_NUM_STRING_DESCRIPTORS	6
+    #define USB_MAX_NUM_INT             (INTF1_NUMBER+1)   // For tracking Alternate Setting
+    #define USB_MAX_EP_NUMBER           2
+    #define USB_NUM_STRING_DESCRIPTORS  6
 #else
-	#define USB_MAX_NUM_INT     		(INTF0_NUMBER+1)   // For tracking Alternate Setting
-	#define USB_MAX_EP_NUMBER			1
-	#define USB_NUM_STRING_DESCRIPTORS	4
+    #define USB_MAX_NUM_INT             (INTF0_NUMBER+1)   // For tracking Alternate Setting
+    #define USB_MAX_EP_NUMBER           1
+    #define USB_NUM_STRING_DESCRIPTORS  4
 #endif
 
 //Device descriptor - if these two definitions are not defined then
@@ -341,7 +341,7 @@
 // #define USB_PING_PONG_MODE USB_PING_PONG__NO_PING_PONG
 #define USB_PING_PONG_MODE USB_PING_PONG__FULL_PING_PONG
 // #define USB_PING_PONG_MODE USB_PING_PONG__EP0_OUT_ONLY
-// #define USB_PING_PONG_MODE USB_PING_PONG__ALL_BUT_EP0		//NOTE: This mode is not supported in PIC18F4550 family rev A3 devices
+// #define USB_PING_PONG_MODE USB_PING_PONG__ALL_BUT_EP0        //NOTE: This mode is not supported in PIC18F4550 family rev A3 devices
 #endif
 
 
@@ -366,7 +366,7 @@
 
 /* DEVICE CLASS USAGE *********************************************/
 #define USB_USE_GEN
-#define	EVN	0
-#define	ODD	1
+#define EVN 0
+#define ODD 1
 
 #endif //USBCFG_H

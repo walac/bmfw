@@ -1,10 +1,10 @@
 /********************************************************************
- FileName:     	HardwareProfile - PIC18F87J50 PIM.h
- Dependencies:	See INCLUDES section
- Processor:	PIC18 USB Microcontrollers
- Hardware:	PIC18F87J50 PIM
- Compiler:  	Microchip C18
- Company:		Microchip Technology, Inc.
+ FileName:      HardwareProfile - PIC18F87J50 PIM.h
+ Dependencies:  See INCLUDES section
+ Processor: PIC18 USB Microcontrollers
+ Hardware:  PIC18F87J50 PIM
+ Compiler:      Microchip C18
+ Company:       Microchip Technology, Inc.
 
  Software License Agreement:
 
@@ -67,7 +67,7 @@
     #define self_power          1
     #endif
 
-    //#define USE_USB_BUS_SENSE_IO		//JP1 must be in R-U position to use this feature on this board	
+    //#define USE_USB_BUS_SENSE_IO      //JP1 must be in R-U position to use this feature on this board 
     #define tris_usb_bus_sense  TRISBbits.TRISB5    // Input
     #if defined(USE_USB_BUS_SENSE_IO)
     #define USB_BUS_SENSE       PORTBbits.RB5
@@ -77,7 +77,7 @@
  
     //Uncomment this to make the output HEX of this project 
     //   to be able to be bootloaded using the HID bootloader
-	#define PROGRAMMABLE_WITH_USB_HID_BOOTLOADER		
+    #define PROGRAMMABLE_WITH_USB_HID_BOOTLOADER        
 
 
     /*******************************************************************/
@@ -137,15 +137,15 @@
     #define sw3                 PORTBbits.RB4
     
     /** POT ************************************************************/
-    #define mInitPOT()          {TRISAbits.TRISA0=1;			\
-    							 WDTCONbits.ADSHR = 1;			\
-    							 ANCON0bits.PCFG0 = 1;			\
-    							 WDTCONbits.ADSHR = 0;			\
-    							 ADCON0=0x01;					\
-    							 ADCON1=0xBE;}		// POT on HPC Explorer				
+    #define mInitPOT()          {TRISAbits.TRISA0=1;            \
+                                 WDTCONbits.ADSHR = 1;          \
+                                 ANCON0bits.PCFG0 = 1;          \
+                                 WDTCONbits.ADSHR = 0;          \
+                                 ADCON0=0x01;                   \
+                                 ADCON1=0xBE;}      // POT on HPC Explorer              
     
     /** I 2 C   T E M P   S E N S E *************************************/
-    #define	mInitI2CPins()		TRISC |= 0x18;		// RC3 and RC4 are I2C
+    #define mInitI2CPins()      TRISC |= 0x18;      // RC3 and RC4 are I2C
     
     /** I/O pin definitions ********************************************/
     #define INPUT_PIN 1

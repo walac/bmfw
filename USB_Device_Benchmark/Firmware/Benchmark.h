@@ -11,21 +11,21 @@
     The software supplied herewith is intended for use solely and
     exclusively on Microchip PIC Microcontroller products. This 
     software is owned by Travis Robinson, and is protected under
-	applicable copyright laws. All rights are reserved. Any use in 
-	violation of the foregoing restrictions may subject the user to 
-	criminal sanctions under applicable laws, as well as to civil 
-	liability for the breach of the terms and conditions of this
+    applicable copyright laws. All rights are reserved. Any use in 
+    violation of the foregoing restrictions may subject the user to 
+    criminal sanctions under applicable laws, as well as to civil 
+    liability for the breach of the terms and conditions of this
     license.
 
-	You may redistribute and/or modify this file under the terms
-	described above.
+    You may redistribute and/or modify this file under the terms
+    described above.
     
     THIS SOFTWARE IS PROVIDED IN AN “AS IS” CONDITION. NO WARRANTIES,
     WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED
     TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
     PARTICULAR PURPOSE APPLY TO THIS SOFTWARE. THE OWNER SHALL NOT,
     IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL OR
-    CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.	
+    CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.   
 */
 
 #ifndef _BENCHMARK_H
@@ -50,10 +50,10 @@ enum TestType
 // PicFW Vendor-Specific Requests
 enum PICFW_COMMANDS
 {
-    PICFW_SET_TEST		= 0x0E,
-    PICFW_GET_TEST		= 0x0F,
-	PICFW_SET_VENDOR_BUFFER= 0x10,
-	PICFW_GET_VENDOR_BUFFER= 0x11,
+    PICFW_SET_TEST      = 0x0E,
+    PICFW_GET_TEST      = 0x0F,
+    PICFW_SET_VENDOR_BUFFER= 0x10,
+    PICFW_GET_VENDOR_BUFFER= 0x11,
 };
 
 /** BMARK CALLBACKS ************************************************/

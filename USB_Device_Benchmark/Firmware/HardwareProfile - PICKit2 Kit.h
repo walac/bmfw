@@ -1,5 +1,5 @@
 /********************************************************************
- FileName:     	HardwareProfile - PICKit2 Kit
+ FileName:      HardwareProfile - PICKit2 Kit
  Dependencies:  See INCLUDES section
  Processor:     PIC18F2250 USB Microcontroller
  Hardware:      PICKit2 Kit
@@ -73,10 +73,10 @@
     //Uncomment the following line to make the output HEX of this  
     //  project work with the MCHPUSB Bootloader    
     //#define PROGRAMMABLE_WITH_USB_MCHPUSB_BOOTLOADER
-	
+    
     //Uncomment the following line to make the output HEX of this 
     //  project work with the HID Bootloader
-    #define PROGRAMMABLE_WITH_USB_HID_BOOTLOADER		
+    #define PROGRAMMABLE_WITH_USB_HID_BOOTLOADER        
 
     /*******************************************************************/
     /*******************************************************************/
@@ -131,7 +131,7 @@
     // SCL (RB1) connected to WP (RC6) and SDA (RB0) grounded.
     // To make sure these pins don't interfere with our serial operations, we
     // set them as input.
-    #define mDisableSCLSDA()    TRISC |= 0x03;	// Set as inputs
+    #define mDisableSCLSDA()    TRISC |= 0x03;  // Set as inputs
 
     /** WinUSB automated driver installation in Windows 8 **************/
     #define WITH_WINDOWS8_WINUSB

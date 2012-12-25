@@ -53,7 +53,7 @@
     //  option carefully and determine which options are desired/required
     //  for your application.
 
-    //#define USE_SELF_POWER_SENSE_IO	
+    //#define USE_SELF_POWER_SENSE_IO   
     #define tris_self_power     TRISAbits.TRISA2    // Input
     #if defined(USE_SELF_POWER_SENSE_IO)
     #define self_power          PORTAbits.RA2
@@ -79,7 +79,7 @@
 
     //Uncomment the following line to make the output HEX of this 
     //  project work with the HID Bootloader
-    #define PROGRAMMABLE_WITH_USB_HID_BOOTLOADER	
+    #define PROGRAMMABLE_WITH_USB_HID_BOOTLOADER    
 
     /** Board definition ***********************************************/
     //These defintions will tell the main() function which board is

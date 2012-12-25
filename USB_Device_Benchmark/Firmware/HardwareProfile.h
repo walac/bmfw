@@ -13,7 +13,7 @@
                     PICKit2 Kit
                   The firmware may be modified for use on other USB
                     platforms by editing this file (HardwareProfile.h)
- Compiler:  	Microchip C18 (for PIC18), C30 (for PIC24),
+ Compiler:      Microchip C18 (for PIC18), C30 (for PIC24),
                   or C32 (for PIC32)
  Company:       Microchip Technology, Inc.
 
