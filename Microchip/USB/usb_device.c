@@ -231,14 +231,14 @@ firmware design flexibility.
 //----------------------------------------------------------------------------------*/
 
 /** INCLUDES *******************************************************/
-#include "./USB/USB.h"
+#include "./usb/usb.h"
 #include "HardwareProfile.h"
 
 #include "../USB/usb_device_local.h"
 
 
 #if defined(USB_USE_MSD)
-    #include "./USB/usb_function_msd.h"
+    #include "./usb/usb_function_msd.h"
 #endif
 
 #if !defined(USE_USB_BUS_SENSE_IO)

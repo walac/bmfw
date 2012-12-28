@@ -32,8 +32,8 @@
 #define _BENCHMARK_H
 
 /** INCLUDES *******************************************************/
-#include "USB/usb.h"
-#include "USB/usb_function_generic.h"
+#include "usb/usb.h"
+#include "usb/usb_function_generic.h"
 #include "HardwareProfile.h"
 
 // These are vendor specific commands

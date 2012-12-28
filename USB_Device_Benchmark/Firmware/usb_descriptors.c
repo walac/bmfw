@@ -154,8 +154,8 @@ state according to the definition in the USB specification.
 #define __USB_DESCRIPTORS_C
  
 /** INCLUDES *******************************************************/
-#include "USB/usb.h"
-#include "USB/usb_function_generic.h"
+#include "usb/usb.h"
+#include "usb/usb_function_generic.h"
 #include "HardwareProfile.h"
 
 #if VENDOR_ID == 0x1234

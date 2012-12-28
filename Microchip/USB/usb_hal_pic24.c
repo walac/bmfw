@@ -99,7 +99,7 @@ Description:
 #ifndef USB_HAL_PIC24F_C
 #define USB_HAL_PIC24F_C
 
-#include "USB/usb.h"
+#include "usb/usb.h"
 
 
 /*************************************************************************
