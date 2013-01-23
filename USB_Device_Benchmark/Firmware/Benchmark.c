@@ -267,7 +267,29 @@ void USBCBInitEP(void)
 }
 void USBCBCheckOtherReq(void)
 {
-    if (SetupPkt.RequestType != USB_SETUP_TYPE_VENDOR_BITFIELD) return;
+    if (SetupPkt.RequestType != USB_SETUP_TYPE_VENDOR_BITFIELD)
+    {
+#if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
+        switch (SetupPkt.bRequest)
+        {
+        case USB_REQUEST_SET_INTERFACE:
+            switch(USBAlternateInterface[INTF0_NUMBER])
+            {
+            case 0:
+                USBEnableEndpoint(USBGEN_EP_NUM_INTF0,USB_OUT_ENABLED|USB_IN_ENABLED|USBGEN_EP_HANDSHAKE_INTF0|USB_DISALLOW_SETUP);
+                break;
+            case 1:
+                USBEnableEndpoint(USBGEN_EP_NUM_INTF0,USB_OUT_ENABLED|USB_IN_ENABLED|USBGEN_EP_HANDSHAKE_INTF0|USB_DISALLOW_SETUP);
+                break;
+            case 2:
+                USBEnableEndpoint(USBGEN_EP_NUM_INTF0,USB_OUT_ENABLED|USB_IN_ENABLED|USB_DISALLOW_SETUP);
+                break;
+            }
+            break;
+        }
+#endif
+        return;
+    }
 
     switch (SetupPkt.bRequest)
     {
