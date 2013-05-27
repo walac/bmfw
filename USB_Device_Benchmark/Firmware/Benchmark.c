@@ -571,33 +571,17 @@ void doBenchmarkLoop_INTF0(void)
             switch (USBAlternateInterface[INTF0_NUMBER])
             {
             case 0:
-                #if INTF0_ALT0 == EP_ISO
-                    Length = USBGEN_EP_SIZE_INTF0_ALT0;
-                #else
-                    Length = mBDT_GetLength(pBdtRx);
-                #endif
+                Length = mBDT_GetLength(pBdtRx);
                 break;
             case 1:
-                #if INTF0_ALT1 == EP_ISO
-                    Length = USBGEN_EP_SIZE_INTF0_ALT1;
-                #else
-                    Length = mBDT_GetLength(pBdtRx);
-                #endif
+                Length = mBDT_GetLength(pBdtRx);
                 break;
             case 2:
-                #if INTF0_ALT2 == EP_ISO
-                    Length = USBGEN_EP_SIZE_INTF0_ALT2;
-                #else
-                    Length = mBDT_GetLength(pBdtRx);
-                #endif
+                Length = mBDT_GetLength(pBdtRx);
                 break;
             }
         #else
-            #if INTF0==EP_ISO
-                Length=USBGEN_EP_SIZE_INTF0;
-            #else
-                Length = mBDT_GetLength(pBdtRx);
-            #endif
+            Length = mBDT_GetLength(pBdtRx);
         #endif
 
         mBDT_FillTransfer(pBdtTx, pBufferTx, Length);
