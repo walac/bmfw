@@ -315,6 +315,10 @@
     #define USB_MAX_NUM_INT             (INTF1_NUMBER+1)   // For tracking Alternate Setting
     #define USB_MAX_EP_NUMBER           2
     #define USB_NUM_STRING_DESCRIPTORS  6
+#elif defined SINGLE_INTERFACE_WITH_ALTSETTINGS
+    #define USB_MAX_NUM_INT             (INTF0_NUMBER+1)   // For tracking Alternate Setting
+    #define USB_MAX_EP_NUMBER           3
+    #define USB_NUM_STRING_DESCRIPTORS  4
 #else
     #define USB_MAX_NUM_INT             (INTF0_NUMBER+1)   // For tracking Alternate Setting
     #define USB_MAX_EP_NUMBER           1

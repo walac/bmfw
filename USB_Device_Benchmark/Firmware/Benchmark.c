@@ -1,31 +1,31 @@
-/// Benchmark.c 
+/// Benchmark.c
 /// Single interface ping-pong buffering enabled.
 
 /* USB Benchmark for libusb-win32
 
     Copyright © 2010 Travis Robinson. <libusbdotnet@gmail.com>
     website: http://sourceforge.net/projects/libusb-win32
- 
+
     Software License Agreement:
-    
+
     The software supplied herewith is intended for use solely and
-    exclusively on Microchip PIC Microcontroller products. This 
+    exclusively on Microchip PIC Microcontroller products. This
     software is owned by Travis Robinson, and is protected under
-    applicable copyright laws. All rights are reserved. Any use in 
-    violation of the foregoing restrictions may subject the user to 
-    criminal sanctions under applicable laws, as well as to civil 
+    applicable copyright laws. All rights are reserved. Any use in
+    violation of the foregoing restrictions may subject the user to
+    criminal sanctions under applicable laws, as well as to civil
     liability for the breach of the terms and conditions of this
     license.
 
     You may redistribute and/or modify this file under the terms
     described above.
-    
+
     THIS SOFTWARE IS PROVIDED IN AN “AS IS” CONDITION. NO WARRANTIES,
     WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED
     TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
     PARTICULAR PURPOSE APPLY TO THIS SOFTWARE. THE OWNER SHALL NOT,
     IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL OR
-    CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.   
+    CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
 */
 
 /** INCLUDES *******************************************************/
@@ -46,9 +46,9 @@
 //interface for reading/writing USB data into/out of main system SRAM.
 
 //On some USB PIC microcontrollers, all of the microcontroller SRAM is dual
-//access, and therefore all of it can be accessed by either the USB 
-//module or the microcontroller core.  On other devices, only a certain 
-//portion of the SRAM is accessible by the USB module. Therefore, on some 
+//access, and therefore all of it can be accessed by either the USB
+//module or the microcontroller core.  On other devices, only a certain
+//portion of the SRAM is accessible by the USB module. Therefore, on some
 //devices, it is important to place USB data buffers in certain sections of
 //SRAM, while on other devices, the buffers can be placed anywhere.
 
@@ -58,12 +58,12 @@
 //For PIC18F1xK50 devices: 0x200-0x2FF is USB accessible.
 //For PIC18F4450/2450 devices: 0x400-0x4FF is USB accessible.
 //For PIC18F4550/4553/4455/4458/2550/2553/2455/2458: 0x400-0x7FF is USB accessible.
-#if defined(__18F14K50) || defined(__18F13K50) || defined(__18LF14K50) || defined(__18LF13K50) 
+#if defined(__18F14K50) || defined(__18F13K50) || defined(__18LF14K50) || defined(__18LF13K50)
     #pragma udata USB_VARIABLES=0x240
 #elif defined(__18F2455) || defined(__18F2550) || defined(__18F4455) || defined(__18F4550) || defined(__18F2458) || defined(__18F2453) || defined(__18F4558) || defined(__18F4553)
-    #pragma udata USB_VARIABLES=0x440
+    #pragma udata USB_VARIABLES=0x500
 #elif defined(__18F4450) || defined(__18F2450)
-    #pragma udata USB_VARIABLES=0x440
+    #pragma udata USB_VARIABLES=0x500
 #else
     #pragma udata
 #endif
@@ -81,7 +81,7 @@ BYTE VendorBuffer[8];
 // The below variables are only accessed by the CPU and can be placed anywhere in RAM.
 #pragma udata
 
-// Temporary variables 
+// Temporary variables
 WORD counter;
 
 // Internal test variables
@@ -221,6 +221,8 @@ void USBCBInitEP(void)
     TestType_INTF0 = TEST_LOOP;
 
     USBEnableEndpoint(USBGEN_EP_NUM_INTF0,USB_OUT_ENABLED|USB_IN_ENABLED|USBGEN_EP_HANDSHAKE_INTF0|USB_DISALLOW_SETUP);
+    USBEnableEndpoint(USBGEN_EP_NUM_INTF0+1,USB_OUT_ENABLED|USB_IN_ENABLED|USBGEN_EP_HANDSHAKE_INTF0|USB_DISALLOW_SETUP);
+    USBEnableEndpoint(USBGEN_EP_NUM_INTF0+2,USB_OUT_ENABLED|USB_IN_ENABLED|USB_DISALLOW_SETUP);
 
     //Prepare the OUT endpoints to receive the first packets from the host.
     pBdtRxEp1->ADR = ConvertToPhysicalAddress(GetBenchmarkBuffer(INTF0, OUT_FROM_HOST, mBDT_IsOdd(pBdtRxEp1)));
@@ -230,15 +232,74 @@ void USBCBInitEP(void)
         mBDT_TogglePP(pBdtRxEp1);
     #endif
 
+#ifdef SINGLE_INTERFACE_WITH_ALTSETTINGS
+#if USB_MAX_EP_NUMBER > 1
+    //Prepare the OUT endpoints to receive the first packets from the host.
+    pBdtRxEp2->ADR = ConvertToPhysicalAddress(GetBenchmarkBuffer(INTF0, OUT_FROM_HOST, mBDT_IsOdd(pBdtRxEp2)));
+    #if (PP_COUNT==(2))
+        mBDT_TogglePP(pBdtRxEp2);
+        pBdtRxEp2->ADR = ConvertToPhysicalAddress(GetBenchmarkBuffer(INTF0, OUT_FROM_HOST, mBDT_IsOdd(pBdtRxEp2)));
+        mBDT_TogglePP(pBdtRxEp2);
+    #endif
+#endif
+
+#if USB_MAX_EP_NUMBER > 2
+    //Prepare the OUT endpoints to receive the first packets from the host.
+    pBdtRxEp3->ADR = ConvertToPhysicalAddress(GetBenchmarkBuffer(INTF0, OUT_FROM_HOST, mBDT_IsOdd(pBdtRxEp3)));
+    #if (PP_COUNT==(2))
+        mBDT_TogglePP(pBdtRxEp3);
+        pBdtRxEp3->ADR = ConvertToPhysicalAddress(GetBenchmarkBuffer(INTF0, OUT_FROM_HOST, mBDT_IsOdd(pBdtRxEp3)));
+        mBDT_TogglePP(pBdtRxEp3);
+    #endif
+#endif
+#endif
+
     doBenchmarkRead_INTF0();
     doBenchmarkRead_INTF0();
-    
+
+#ifdef SINGLE_INTERFACE_WITH_ALTSETTINGS
+#if USB_MAX_EP_NUMBER > 1
+    USBAlternateInterface[INTF0_NUMBER] = 1;
+    doBenchmarkRead_INTF0();
+    doBenchmarkRead_INTF0();
+#endif
+
+#if USB_MAX_EP_NUMBER > 2
+    USBAlternateInterface[INTF0_NUMBER] = 2;
+    doBenchmarkRead_INTF0();
+    doBenchmarkRead_INTF0();
+    USBAlternateInterface[INTF0_NUMBER] = 0;
+#endif
+#endif
+
     pBdtTxEp1->ADR = ConvertToPhysicalAddress(GetBenchmarkBuffer(INTF0, IN_TO_HOST, mBDT_IsOdd(pBdtTxEp1)));
     #if (PP_COUNT==(2))
         mBDT_TogglePP(pBdtTxEp1);
         pBdtTxEp1->ADR = ConvertToPhysicalAddress(GetBenchmarkBuffer(INTF0, IN_TO_HOST, mBDT_IsOdd(pBdtTxEp1)));
         mBDT_TogglePP(pBdtTxEp1);
     #endif
+
+#ifdef SINGLE_INTERFACE_WITH_ALTSETTINGS
+#if USB_MAX_EP_NUMBER > 1
+    pBdtTxEp2->ADR = ConvertToPhysicalAddress(GetBenchmarkBuffer(INTF0, IN_TO_HOST, mBDT_IsOdd(pBdtTxEp2)));
+    #if (PP_COUNT==(2))
+        mBDT_TogglePP(pBdtTxEp2);
+        pBdtTxEp2->ADR = ConvertToPhysicalAddress(GetBenchmarkBuffer(INTF0, IN_TO_HOST, mBDT_IsOdd(pBdtTxEp2)));
+        mBDT_TogglePP(pBdtTxEp2);
+    #endif
+#endif
+#endif
+
+#ifdef SINGLE_INTERFACE_WITH_ALTSETTINGS
+#if USB_MAX_EP_NUMBER > 2
+    pBdtTxEp3->ADR = ConvertToPhysicalAddress(GetBenchmarkBuffer(INTF0, IN_TO_HOST, mBDT_IsOdd(pBdtTxEp3)));
+    #if (PP_COUNT==(2))
+        mBDT_TogglePP(pBdtTxEp3);
+        pBdtTxEp3->ADR = ConvertToPhysicalAddress(GetBenchmarkBuffer(INTF0, IN_TO_HOST, mBDT_IsOdd(pBdtTxEp3)));
+        mBDT_TogglePP(pBdtTxEp3);
+    #endif
+#endif
+#endif
 
     #ifdef DUAL_INTERFACE
         TestType_INTF1 = TEST_LOOP;
@@ -255,7 +316,7 @@ void USBCBInitEP(void)
 
         doBenchmarkRead_INTF1();
         doBenchmarkRead_INTF1();
-        
+
         pBdtTxEp2->ADR = ConvertToPhysicalAddress(GetBenchmarkBuffer(INTF1, IN_TO_HOST, mBDT_IsOdd(pBdtTxEp2)));
         #if (PP_COUNT==(2))
             mBDT_TogglePP(pBdtTxEp2);
@@ -267,30 +328,6 @@ void USBCBInitEP(void)
 }
 void USBCBCheckOtherReq(void)
 {
-    if (SetupPkt.RequestType != USB_SETUP_TYPE_VENDOR_BITFIELD)
-    {
-#if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
-        switch (SetupPkt.bRequest)
-        {
-        case USB_REQUEST_SET_INTERFACE:
-            switch(USBAlternateInterface[INTF0_NUMBER])
-            {
-            case 0:
-                USBEnableEndpoint(USBGEN_EP_NUM_INTF0,USB_OUT_ENABLED|USB_IN_ENABLED|USBGEN_EP_HANDSHAKE_INTF0|USB_DISALLOW_SETUP);
-                break;
-            case 1:
-                USBEnableEndpoint(USBGEN_EP_NUM_INTF0,USB_OUT_ENABLED|USB_IN_ENABLED|USBGEN_EP_HANDSHAKE_INTF0|USB_DISALLOW_SETUP);
-                break;
-            case 2:
-                USBEnableEndpoint(USBGEN_EP_NUM_INTF0,USB_OUT_ENABLED|USB_IN_ENABLED|USB_DISALLOW_SETUP);
-                break;
-            }
-            break;
-        }
-#endif
-        return;
-    }
-
     switch (SetupPkt.bRequest)
     {
     case PICFW_SET_TEST:
@@ -344,7 +381,7 @@ void USBCBCheckOtherReq(void)
 #endif
         inPipes[0].pSrc.bRam = VendorBuffer;                // Set Source
         inPipes[0].info.bits.ctrl_trf_mem = USB_EP0_RAM;    // Set memory type
-        
+
         // Set data count
         inPipes[0].wCount.v[0] = SetupPkt.wLength & 0xFF;
         if (inPipes[0].wCount.v[0] > sizeof(VendorBuffer))
@@ -520,11 +557,15 @@ void doBenchmarkLoop_INTF0(void)
     WORD Length;
     BYTE* pBufferRx;
     BYTE* pBufferTx;
+    BDT_ENTRY *pBdtTx, *pBdtRx;
 
-    if (!USBHandleBusy(pBdtRxEp1) && !USBHandleBusy(pBdtTxEp1))
+    pBdtRx = pBDTEntryOut[USBAlternateInterface[INTF0_NUMBER]+1];
+    pBdtTx = pBDTEntryIn[USBAlternateInterface[INTF0_NUMBER]+1];
+
+    if (!USBHandleBusy(pBdtRx) && !USBHandleBusy(pBdtTx))
     {
-        pBufferTx = USBHandleGetAddr(pBdtRxEp1);
-        pBufferRx = USBHandleGetAddr(pBdtTxEp1);
+        pBufferTx = USBHandleGetAddr(pBdtRx);
+        pBufferRx = USBHandleGetAddr(pBdtTx);
 
         #if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
             switch (USBAlternateInterface[INTF0_NUMBER])
@@ -533,21 +574,21 @@ void doBenchmarkLoop_INTF0(void)
                 #if INTF0_ALT0 == EP_ISO
                     Length = USBGEN_EP_SIZE_INTF0_ALT0;
                 #else
-                    Length = mBDT_GetLength(pBdtRxEp1);
+                    Length = mBDT_GetLength(pBdtRx);
                 #endif
                 break;
             case 1:
                 #if INTF0_ALT1 == EP_ISO
                     Length = USBGEN_EP_SIZE_INTF0_ALT1;
                 #else
-                    Length = mBDT_GetLength(pBdtRxEp1);
+                    Length = mBDT_GetLength(pBdtRx);
                 #endif
                 break;
             case 2:
                 #if INTF0_ALT2 == EP_ISO
                     Length = USBGEN_EP_SIZE_INTF0_ALT2;
                 #else
-                    Length = mBDT_GetLength(pBdtRxEp1);
+                    Length = mBDT_GetLength(pBdtRx);
                 #endif
                 break;
             }
@@ -555,30 +596,30 @@ void doBenchmarkLoop_INTF0(void)
             #if INTF0==EP_ISO
                 Length=USBGEN_EP_SIZE_INTF0;
             #else
-                Length = mBDT_GetLength(pBdtRxEp1);
+                Length = mBDT_GetLength(pBdtRx);
             #endif
         #endif
 
-        mBDT_FillTransfer(pBdtTxEp1, pBufferTx, Length);
+        mBDT_FillTransfer(pBdtTx, pBufferTx, Length);
 
         #if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
             switch (USBAlternateInterface[INTF0_NUMBER])
             {
             case 0:
-                mSubmitTransfer_INTF0_ALT0(pBdtTxEp1, Length);
+                mSubmitTransfer_INTF0_ALT0(pBdtTx, Length);
                 break;
             case 1:
-                mSubmitTransfer_INTF0_ALT1(pBdtTxEp1, Length);
+                mSubmitTransfer_INTF0_ALT1(pBdtTx, Length);
                 break;
             case 2:
-                mSubmitTransfer_INTF0_ALT2(pBdtTxEp1, Length);
+                mSubmitTransfer_INTF0_ALT2(pBdtTx, Length);
                 break;
             }
         #else
-            mSubmitTransfer_INTF0(pBdtTxEp1, Length);
+            mSubmitTransfer_INTF0(pBdtTx, Length);
         #endif
-        
-        mBDT_TogglePP(pBdtTxEp1);
+
+        mBDT_TogglePP(pBdtTx);
 
         #if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
             switch (USBAlternateInterface[INTF0_NUMBER])
@@ -598,26 +639,26 @@ void doBenchmarkLoop_INTF0(void)
             Length=USBGEN_EP_SIZE_INTF0;
         #endif
 
-        mBDT_FillTransfer(pBdtRxEp1, pBufferRx, Length);
+        mBDT_FillTransfer(pBdtRx, pBufferRx, Length);
 
         #if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
             switch (USBAlternateInterface[INTF0_NUMBER])
             {
             case 0:
-                mSubmitTransfer_INTF0_ALT0(pBdtRxEp1, Length);
+                mSubmitTransfer_INTF0_ALT0(pBdtRx, Length);
                 break;
             case 1:
-                mSubmitTransfer_INTF0_ALT1(pBdtRxEp1, Length);
+                mSubmitTransfer_INTF0_ALT1(pBdtRx, Length);
                 break;
             case 2:
-                mSubmitTransfer_INTF0_ALT2(pBdtRxEp1, Length);
+                mSubmitTransfer_INTF0_ALT2(pBdtRx, Length);
                 break;
             }
         #else
-            mSubmitTransfer_INTF0(pBdtRxEp1, Length);
+            mSubmitTransfer_INTF0(pBdtRx, Length);
         #endif
 
-        mBDT_TogglePP(pBdtRxEp1);
+        mBDT_TogglePP(pBdtRx);
     }
 }
 
@@ -625,8 +666,11 @@ void doBenchmarkRead_INTF0(void)
 {
     WORD Length;
     BYTE* pBufferRx;
+    BDT_ENTRY *pBdtRx;
 
-    if (!USBHandleBusy(pBdtRxEp1))
+    pBdtRx = pBDTEntryOut[USBAlternateInterface[INTF0_NUMBER]+1];
+
+    if (!USBHandleBusy(pBdtRx))
     {
         #if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
             switch (USBAlternateInterface[INTF0_NUMBER])
@@ -645,27 +689,27 @@ void doBenchmarkRead_INTF0(void)
             Length=USBGEN_EP_SIZE_INTF0;
         #endif
 
-        pBufferRx = USBHandleGetAddr(pBdtRxEp1);
-        mBDT_FillTransfer(pBdtRxEp1, pBufferRx, Length);
+        pBufferRx = USBHandleGetAddr(pBdtRx);
+        mBDT_FillTransfer(pBdtRx, pBufferRx, Length);
 
         #if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
             switch (USBAlternateInterface[INTF0_NUMBER])
             {
             case 0:
-                mSubmitTransfer_INTF0_ALT0(pBdtRxEp1, Length);
+                mSubmitTransfer_INTF0_ALT0(pBdtRx, Length);
                 break;
             case 1:
-                mSubmitTransfer_INTF0_ALT1(pBdtRxEp1, Length);
+                mSubmitTransfer_INTF0_ALT1(pBdtRx, Length);
                 break;
             case 2:
-                mSubmitTransfer_INTF0_ALT2(pBdtRxEp1, Length);
+                mSubmitTransfer_INTF0_ALT2(pBdtRx, Length);
                 break;
             }
         #else
-            mSubmitTransfer_INTF0(pBdtRxEp1, Length);
+            mSubmitTransfer_INTF0(pBdtRx, Length);
         #endif
 
-        mBDT_TogglePP(pBdtRxEp1);
+        mBDT_TogglePP(pBdtRx);
     }
 }
 
@@ -706,7 +750,7 @@ void doBenchmarkLoop_INTF1(void)
         mBDT_FillTransfer(pBdtRxEp2, pBufferRx, USBGEN_EP_SIZE_INTF1);
         mSubmitTransfer_INTF1(pBdtRxEp2, USBGEN_EP_SIZE_INTF1);
         mBDT_TogglePP(pBdtRxEp2);
-    
+
     }
 }
 

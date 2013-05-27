@@ -258,14 +258,14 @@ ROM BYTE configDescriptor1[]={
     
     0x07,                                   // Endpoint descriptor size
     USB_DESCRIPTOR_ENDPOINT,                // Endpoint descriptor
-    USBGEN_EP_NUM_INTF0,                    // Endpoint address
+    USBGEN_EP_NUM_INTF0+1,                    // Endpoint address
     USBGEN_EP_ATTRIBUTES_INTF0_ALT1,                // Endpoint Attributes
     DESC_CONFIG_WORD(USBGEN_EP_SIZE_INTF0_ALT1),    // Endpoint Size
     USBGEN_EP_INTERVAL_INTF0_ALT1,              // Endpoint Interval
     
     0x07,                                   // Endpoint descriptor size
     USB_DESCRIPTOR_ENDPOINT,                // Endpoint descriptor
-    USBGEN_EP_NUM_INTF0|0x80,               // Endpoint address
+    (USBGEN_EP_NUM_INTF0+1)|0x80,               // Endpoint address
     USBGEN_EP_ATTRIBUTES_INTF0_ALT1,                // Endpoint Attributes
     DESC_CONFIG_WORD(USBGEN_EP_SIZE_INTF0_ALT1),    // Endpoint Size
     USBGEN_EP_INTERVAL_INTF0_ALT1,              // Endpoint Interval
@@ -283,14 +283,14 @@ ROM BYTE configDescriptor1[]={
     
     0x07,                                   // Endpoint descriptor size
     USB_DESCRIPTOR_ENDPOINT,                // Endpoint descriptor
-    USBGEN_EP_NUM_INTF0,                    // Endpoint address
+    (USBGEN_EP_NUM_INTF0+2),                    // Endpoint address
     USBGEN_EP_ATTRIBUTES_INTF0_ALT2,                // Endpoint Attributes
     DESC_CONFIG_WORD(USBGEN_EP_SIZE_INTF0_ALT2),    // Endpoint Size
     USBGEN_EP_INTERVAL_INTF0_ALT2,              // Endpoint Interval
     
     0x07,                                   // Endpoint descriptor size
     USB_DESCRIPTOR_ENDPOINT,                // Endpoint descriptor
-    USBGEN_EP_NUM_INTF0|0x80,               // Endpoint address
+    (USBGEN_EP_NUM_INTF0+2)|0x80,               // Endpoint address
     USBGEN_EP_ATTRIBUTES_INTF0_ALT2,                // Endpoint Attributes
     DESC_CONFIG_WORD(USBGEN_EP_SIZE_INTF0_ALT2),    // Endpoint Size
     USBGEN_EP_INTERVAL_INTF0_ALT2,              // Endpoint Interval
