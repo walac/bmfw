@@ -567,22 +567,7 @@ void doBenchmarkLoop_INTF0(void)
         pBufferTx = USBHandleGetAddr(pBdtRx);
         pBufferRx = USBHandleGetAddr(pBdtTx);
 
-        #if defined(SINGLE_INTERFACE_WITH_ALTSETTINGS)
-            switch (USBAlternateInterface[INTF0_NUMBER])
-            {
-            case 0:
-                Length = mBDT_GetLength(pBdtRx);
-                break;
-            case 1:
-                Length = mBDT_GetLength(pBdtRx);
-                break;
-            case 2:
-                Length = mBDT_GetLength(pBdtRx);
-                break;
-            }
-        #else
-            Length = mBDT_GetLength(pBdtRx);
-        #endif
+        Length = mBDT_GetLength(pBdtRx);
 
         mBDT_FillTransfer(pBdtTx, pBufferTx, Length);
 
@@ -618,7 +603,6 @@ void doBenchmarkLoop_INTF0(void)
                 Length = USBGEN_EP_SIZE_INTF0_ALT2;
                 break;
             }
-            Length=(USBAlternateInterface[INTF0_NUMBER]==1) ? USBGEN_EP_SIZE_INTF0_ALT1 : USBGEN_EP_SIZE_INTF0_ALT0;
         #else
             Length=USBGEN_EP_SIZE_INTF0;
         #endif
