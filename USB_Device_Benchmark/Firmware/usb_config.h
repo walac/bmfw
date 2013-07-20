@@ -3,12 +3,12 @@
 *
 * The benchmark firmware has many options that can be configured at compile-time.
 * Some options are not supported by all MCP USB chips, others cannot be achieved
-* because of memory requirements.  If the firmware fails to build, it is most 
+* because of memory requirements.  If the firmware fails to build, it is most
 * likely because of one of these two reasons.
 *
 */
 
-/*! \mainpage 
+/*! \mainpage
 * - \ref config_device
 * - \ref config_interface
 */
@@ -67,7 +67,7 @@
 /*! \def VENDOR_BUFFER_ENABLED
 * \brief Enables EP0 get/set vendor buffer.
 *
-* If defined, enables additional control requests and an 8 byte buffer for storing and 
+* If defined, enables additional control requests and an 8 byte buffer for storing and
 * retrieving data.
 *
 */
@@ -169,7 +169,7 @@
 
 /*! \def INTF1
 * \brief Endpoint type for IN and OUT endpoints on interface 1.
-* 
+*
 * Valid values are \c EP_ISO, \c EP_BULK, and \c EP_INT.
 */
 #ifndef INTF1
@@ -178,21 +178,21 @@
 
 /*! \def INTF0_ALT0
 * \brief Endpoint type for IN and OUT endpoints on interface 0, alternate setting 0.
-* 
+*
 * Valid values are \c EP_ISO, \c EP_BULK, and \c EP_INT.
 */
 #define INTF0_ALT0 EP_BULK
 
 /*! \def INTF0_ALT0
 * \brief Endpoint type for IN and OUT endpoints on interface 0, alternate setting 1.
-* 
+*
 * Valid values are \c EP_ISO, \c EP_BULK, and \c EP_INT.
 */
 #define INTF0_ALT1 EP_INT
 
 /*! \def INTF0_ALT0
 * \brief Endpoint type for IN and OUT endpoints on interface 0, alternate setting 2.
-* 
+*
 * Valid values are \c EP_ISO, \c EP_BULK, and \c EP_INT.
 */
 #define INTF0_ALT2 EP_ISO
@@ -342,8 +342,8 @@
 #if defined(__C32__)
   #define USB_PING_PONG_MODE USB_PING_PONG__FULL_PING_PONG
 #else
-// #define USB_PING_PONG_MODE USB_PING_PONG__NO_PING_PONG
-#define USB_PING_PONG_MODE USB_PING_PONG__FULL_PING_PONG
+#define USB_PING_PONG_MODE USB_PING_PONG__NO_PING_PONG
+// #define USB_PING_PONG_MODE USB_PING_PONG__FULL_PING_PONG
 // #define USB_PING_PONG_MODE USB_PING_PONG__EP0_OUT_ONLY
 // #define USB_PING_PONG_MODE USB_PING_PONG__ALL_BUT_EP0        //NOTE: This mode is not supported in PIC18F4550 family rev A3 devices
 #endif
